@@ -51,6 +51,13 @@ const criarUsuario = async (req, res) => {
             });
         }
 
+        const [usuarioExistente] = await conexao.query(
+            `SELECT usuarios.email FROM usuarios WHERE email = ?`, [email]
+        )
+        if(usuarioExistente.length > 0){
+            return res.status(400).json({ erro: "Este email já foi utilizado."})
+        }
+
         const senhaCriptografada = await bcrypt.hash(senha, 10)
         
         const [result] = await conexao.query(
