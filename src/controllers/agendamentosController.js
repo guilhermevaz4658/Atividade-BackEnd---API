@@ -115,8 +115,39 @@ const criarAgendamento = async (req, res) => {
     }
 };
 
+const removerAgendamento = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [agendamento] = await conexao.query(
+            'SELECT * FROM agendamentos WHERE id = ?',
+            [id]
+        );
+
+        if (agendamento.length === 0) {
+            return res.status(404).json({ erro: 'Agendamento não encontrado' });
+        }
+
+        await conexao.query(
+            'DELETE FROM agendamentos WHERE id = ?',
+            [id]
+        );
+
+        return res.status(200).json({
+            mensagem: 'Agendamento removido com sucesso'
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            erro: 'Erro ao remover agendamento',
+            mensagem: error.message
+        });
+    }
+};
+
 module.exports = {
     listarAgendamentos,
     buscarAgendamentoPorId,
-    criarAgendamento
+    criarAgendamento,
+    removerAgendamento
 };

@@ -1,4 +1,6 @@
 const conexao = require('../database/conexao');
+const bcrypt = require('bcrypt')
+
 
 const listarUsuarios = async (req, res) => {
     try {
@@ -49,9 +51,11 @@ const criarUsuario = async (req, res) => {
             });
         }
 
+        const senhaCriptografada = await bcrypt.hash(senha, 10)
+        
         const [result] = await conexao.query(
             'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)',
-            [nome, email, senha]
+            [nome, email, senhaCriptografada]
         );
 
         return res.status(201).json({
@@ -81,11 +85,13 @@ const atualizarUsuario = async (req, res) => {
             return res.status(404).json({ erro: 'Usuário não encontrado' });
         }
 
+        const senhaCriptografada = await bcrypt.hash(senha, 10)
+
         await conexao.query(
             `UPDATE usuarios 
              SET nome = ?, email = ?, senha = ?
              WHERE id = ?`,
-            [nome, email, senha, id]
+            [nome, email, senhaCriptografada, id]
         );
 
         return res.status(200).json({
