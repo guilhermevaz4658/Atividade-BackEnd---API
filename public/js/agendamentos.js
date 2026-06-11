@@ -37,8 +37,8 @@ async function carregarAgendamentos() {
 
             linha.innerHTML = `
                 <td>${agendamento.id}</td>
-                <td>${agendamento.usuario}</td>
-                <td>${agendamento.servico}</td>
+                <td>${agendamento.usuario_nome}</td>
+                <td>${agendamento.servico_nome}</td>
                 <td>R$ ${agendamento.preco}</td>
                 <td>${agendamento.data_agendamento}</td>
             `;
