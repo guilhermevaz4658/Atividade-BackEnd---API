@@ -2,14 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 const {listarAgendamentos, buscarAgendamentoPorId, criarAgendamento, removerAgendamento} = require('../controllers/agendamentosController');
+const authMiddleware = require('../middleware/authMiddleware')
 
 
-router.get('/agendamentos', listarAgendamentos);
 
-router.get('/agendamentos/:id', buscarAgendamentoPorId);
+router.get('/agendamentos', authMiddleware, listarAgendamentos);
 
-router.post('/criarAgendamento', criarAgendamento);
+router.get('/agendamentos/:id', authMiddleware, buscarAgendamentoPorId);
 
-router.delete('/removerAgendamento', removerAgendamento)
+router.post('/criarAgendamento', authMiddleware, criarAgendamento);
+
+router.delete('/removerAgendamento', authMiddleware, removerAgendamento)
 
 module.exports = router;

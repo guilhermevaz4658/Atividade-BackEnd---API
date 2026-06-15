@@ -1,14 +1,43 @@
-function formatarData(valor) {
-	const data = new Date(valor);
+const token = localStorage.getItem('token');
 
-	return data.toLocaleString('pt-BR');
+if (!token) {
+    window.location.href = '/login.html';
+}
+
+const botaoSair = document.getElementById('botao-sair')
+
+if (botaoSair) {
+    botaoSair.addEventListener('click', () =>{
+        localStorage.removeItem('token')
+        localStorage.removeItem('usuario')
+
+        window.location.href = '/login.html'
+    })
+}
+
+function formatarData(valor) {
+    const data = new Date(valor);
+
+    return data.toLocaleString('pt-BR');
 }
 
 async function carregarAgendamentos() {
     const tabela = document.getElementById('tabela-agendamentos');
 
     try {
-        const resposta = await fetch('/api/agendamentos');
+        const resposta = await fetch('/api/agendamentos', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (resposta.status === 401 || resposta.status === 403) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            window.location.href = '/login.html';
+            return;
+        }
+
 
         if (!resposta.ok) {
             tabela.innerHTML = `

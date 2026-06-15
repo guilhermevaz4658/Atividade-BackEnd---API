@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Login</h1>
+        <p>Entre no sistema para acessar rotas protegidas.</p>
+    </header>
+
+    <nav>
+        <a href="/index.html">Início</a>
+        <a href="/servicos.html">Serviços</a>
+        <a href="/agendamentos.html">Agendamentos</a>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Acessar sistema</h2>
+
+            <form id="form-login">
+                <label for="email">Email</label>
+                <br>
+                <input type="email" id="email" name="email">
+
+                <br><br>
+
+                <label for="senha">Senha</label>
+                <br>
+                <input type="password" id="senha" name="senha">
+
+                <br><br>
+
+                <button type="submit">Entrar</button>
+            </form>
+
+            <p id="mensagem"></p>
+        </section>
+    </main>
+
+    <script src="/js/login.js"></script>
+</body>
+
+</html>
